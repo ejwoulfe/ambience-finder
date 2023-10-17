@@ -11,7 +11,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: url("./assets/snowy-trees.jpg");
+  background-image: url("./assets/snowy-trees.jpg"), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
   background-repeat: no-repeat;
   background-size: cover;
+  background-blend-mode: overlay;
 }

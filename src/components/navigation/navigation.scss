@@ -1,0 +1,13 @@
+nav {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  span {
+    border-bottom: 2px solid #ffffff;
+    img {
+      width: 50px;
+    }
+  }
+}
