@@ -1,3 +1,6 @@
+import magnifyGlass from "../../assets/magnify-glass.svg";
+import "./search-bar.scss";
+
 export default function SearchBar() {
   // async function submitSearch(keyword: string) {
   //   const encodedString = encodeURI(keyword + " ambience");
@@ -23,14 +26,12 @@ export default function SearchBar() {
   return (
     <div className="search-container">
       <form method="post" onSubmit={handleSubmit}>
-        <label>
-          Text input:{" "}
-          <input
-            name="searchTerm"
-            placeholder="Search with keywords separated by commas:  Snow, Lord of the Rings, Calm"
-          />
-        </label>
-        <button type="submit">Submit form</button>
+        <input
+          name="searchTerm"
+          placeholder="Search with keywords separated by commas:  Snow, Lord of the Rings, Calm"></input>
+        <button type="submit">
+          <img src={magnifyGlass} alt="magnify glass" />
+        </button>
       </form>
     </div>
   );
