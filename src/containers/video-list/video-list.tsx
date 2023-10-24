@@ -1,10 +1,18 @@
-import SearchBar from "../../components/search-bar/search-bar";
+import { useEffect } from "react";
 
-export default function VideoList(props: { setActive: React.Dispatch<React.SetStateAction<boolean>> }) {
+import { YoutubeVideoObject } from "../../interfaces/video";
+
+interface VideoListProps {
+  videos: Array<YoutubeVideoObject>;
+}
+
+export default function VideoList(videosList: VideoListProps) {
+  useEffect(() => {
+    console.log(videosList.videos);
+  }, [videosList]);
   return (
     <div className="video-list-container">
-      <h1>HELLO</h1>
-      <SearchBar setActive={props.setActive} />
+      <h1>Videos List</h1>
     </div>
   );
 }

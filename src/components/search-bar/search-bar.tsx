@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
 import magnifyGlass from "../../assets/magnify-glass.svg";
 import "./search-bar.scss";
 import { YoutubeVideoObject } from "../../interfaces/video.ts";
 
-export default function SearchBar(props: { setActive: React.Dispatch<React.SetStateAction<boolean>> }) {
-  const [videoResults, setVideoResults] = useState<Array<YoutubeVideoObject>>();
+interface SearchBarProps {
+  setSearchActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setVideoResults: React.Dispatch<React.SetStateAction<Array<YoutubeVideoObject>>>;
+}
+export default function SearchBar(props: { setters: SearchBarProps }) {
   // async function submitSearch(keyword: string) {
   // const encodedString = encodeURI(keyword + " ambience");
   // const youtubeURL =
@@ -19,12 +21,9 @@ export default function SearchBar(props: { setActive: React.Dispatch<React.SetSt
   // console.log(videos);
   // }
 
-  useEffect(() => {
-    console.log(videoResults);
-  }, [videoResults]);
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    props.setters.setSearchActive(true);
     const target = e.currentTarget;
     const keyword = target.searchTerm.value;
 
@@ -36,8 +35,7 @@ export default function SearchBar(props: { setActive: React.Dispatch<React.SetSt
     const response = await fetch(youtubeURL);
     const results = await response.json();
     const videos = results.items;
-    setVideoResults(videos);
-    // props.setActive(true);
+    props.setters.setVideoResults(videos);
   }
 
   return (
