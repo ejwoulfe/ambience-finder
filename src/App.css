@@ -1,0 +1,7 @@
+.page__title {
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
