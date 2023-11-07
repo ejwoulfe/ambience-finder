@@ -4,6 +4,7 @@ import { YoutubeVideoObject } from "../../interfaces/video";
 import { YoutubeVideoDetailsObject } from "../../interfaces/video-details";
 import { parse } from "tinyduration";
 import { formatDuration } from "../../helpers/format-duration";
+import "./video-list.scss";
 
 interface VideoListProps {
   videos: Array<YoutubeVideoObject>;
@@ -22,11 +23,18 @@ export default function VideoList(videosList: VideoListProps) {
       const videoSnippet = video.snippet;
 
       const parsedDuration = parse(durations[index]);
+      console.log(video);
 
       return (
-        <li key={"video-" + index}>
-          <h5>{videoSnippet.title}</h5>
-          <h6>{formatDuration(parsedDuration)}</h6>
+        <li key={"video-" + index} className="video-row">
+          <div className="video-row__thumbnail">
+            <img src={video.snippet.thumbnails.medium.url} alt="thumbnail" />
+            <p className="thumbnail__duration">{formatDuration(parsedDuration)}</p>
+          </div>
+          <div className="video-row__details">
+            <h3>{videoSnippet.title}</h3>
+            <p>{videoSnippet.description}</p>
+          </div>
         </li>
       );
     });
