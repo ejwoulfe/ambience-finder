@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.69.3"
+    "sass": "^1.69.3",
+    "tinyduration": "^3.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.6",
