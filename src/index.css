@@ -9,13 +9,10 @@ body {
   margin: 0 auto;
   display: flex;
   min-width: 320px;
-  min-height: 100vh;
-  background-image: url("./assets/snowy-trees.jpg"), linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-blend-mode: overlay;
-  width: 1280px;
+  max-width: 1280px;
   color: white;
+  min-height: 100svh;
+  background-color: rgba(26, 26, 26, 0.808);
 }
 #root {
   margin: 0 auto;

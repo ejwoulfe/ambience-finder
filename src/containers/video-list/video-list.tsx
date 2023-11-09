@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 
 import { YoutubeVideoObject } from "../../interfaces/video";
 import { YoutubeVideoDetailsObject } from "../../interfaces/video-details";
-import { parse } from "tinyduration";
-import { formatDuration } from "../../helpers/format-duration";
 import "./video-list.scss";
+import { VideoRow } from "../../components/video-row/video-row";
 
 interface VideoListProps {
   videos: Array<YoutubeVideoObject>;
@@ -12,33 +11,14 @@ interface VideoListProps {
 
 export default function VideoList(videosList: VideoListProps) {
   const [videoDurations, setVideoDurations] = useState<Array<string>>([]);
+  const [videoDetailsObjects, setVideoDetailsObjects] = useState<Array<YoutubeVideoDetailsObject>>([]);
+
   useEffect(() => {
     if (videosList.videos.length > 0) {
       gatherVideoDurations(createVideoIdsArray(videosList.videos));
     }
   }, [videosList]);
 
-  function videoRows(videosList: Array<YoutubeVideoObject>, durations: Array<string>) {
-    return videosList.map((video, index) => {
-      const videoSnippet = video.snippet;
-
-      const parsedDuration = parse(durations[index]);
-      console.log(video);
-
-      return (
-        <li key={"video-" + index} className="video-row">
-          <div className="video-row__thumbnail">
-            <img src={video.snippet.thumbnails.medium.url} alt="thumbnail" />
-            <p className="thumbnail__duration">{formatDuration(parsedDuration)}</p>
-          </div>
-          <div className="video-row__details">
-            <h3>{videoSnippet.title}</h3>
-            <p>{videoSnippet.description}</p>
-          </div>
-        </li>
-      );
-    });
-  }
   function createVideoIdsArray(videosList: Array<YoutubeVideoObject>) {
     const videoIds = videosList.map((video) => {
       return video.id.videoId;
@@ -54,6 +34,7 @@ export default function VideoList(videosList: VideoListProps) {
       import.meta.env.VITE_YOUTUBE_API_KEY;
     const response = await fetch(youtubeVideoDurationURL);
     const videoObjects = await response.json();
+    setVideoDetailsObjects(videoObjects.items);
 
     setVideoDurations(
       videoObjects.items.map((video: YoutubeVideoDetailsObject) => {
@@ -64,8 +45,14 @@ export default function VideoList(videosList: VideoListProps) {
 
   return (
     <div className="videos-container">
-      {videosList.videos.length > 0 && videoDurations.length > 0 ? (
-        <ul className="videos__list">{videoRows(videosList.videos, videoDurations)}</ul>
+      {videoDetailsObjects.length > 0 && videoDurations.length > 0 ? (
+        <ul className="videos__list">
+          {videoDetailsObjects.map((video, index) => {
+            const duration = videoDurations[index];
+            const props = { video, duration, index };
+            return <VideoRow {...props} />;
+          })}
+        </ul>
       ) : (
         <h1>Loading</h1>
       )}

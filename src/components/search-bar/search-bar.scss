@@ -7,7 +7,7 @@
   form {
     display: flex;
     flex-direction: row;
-    padding: 1px;
+    padding: 0.0625em;
     width: 80%;
     border: 1px solid #ffffff;
   }
@@ -17,7 +17,7 @@
     border: none;
     height: 40px;
     background-color: #1a1a1a;
-    text-indent: 10px;
+    text-indent: 0.625em;
     color: white;
   }
 
@@ -34,7 +34,7 @@
     border-left: 1px solid #ffffff;
     background-color: #292929;
     color: white;
-    width: 5rem;
+    width: 8%;
 
     &:hover {
       cursor: pointer;
