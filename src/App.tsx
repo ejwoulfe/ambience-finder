@@ -6,7 +6,7 @@ import VideoList from "./containers/video-list/video-list";
 import { YoutubeVideoObject } from "./interfaces/video.ts";
 import SearchBar from "./components/search-bar/search-bar.tsx";
 import PreviousVideos from "./components/previous-videos/previous-videos.tsx";
-import headphones from "./assets/headphones.svg";
+import whiteHeadphones from "./assets/white-headphones.svg";
 
 function App() {
   const [searchActive, setSearchActive] = useState<boolean>(false);
@@ -16,15 +16,15 @@ function App() {
       <Navigation />
       {searchActive ? (
         <span className="page__title">
-          <img src={headphones} alt="headphones" />
+          <img src={whiteHeadphones} alt="headphones" />
           <h1>Videos List</h1>
-          <img src={headphones} alt="headphones" />
+          <img src={whiteHeadphones} alt="headphones" />
         </span>
       ) : (
         <span className="page__title">
-          <img src={headphones} alt="headphones" />
+          <img src={whiteHeadphones} alt="headphones" />
           <h1>Ambience Finder</h1>
-          <img src={headphones} alt="headphones" />
+          <img src={whiteHeadphones} alt="headphones" />
         </span>
       )}
       <SearchBar setters={{ setSearchActive, setVideoResults }} />

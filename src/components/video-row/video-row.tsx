@@ -1,6 +1,7 @@
 import { YoutubeVideoDetailsObject } from "../../interfaces/video-details";
 import { formatDuration } from "../../helpers/format-duration";
 import { parse } from "tinyduration";
+import "./video-row.scss";
 
 interface VideoRowProps {
   video: YoutubeVideoDetailsObject;

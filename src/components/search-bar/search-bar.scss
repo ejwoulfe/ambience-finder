@@ -9,13 +9,14 @@
     flex-direction: row;
     padding: 0.0625em;
     width: 80%;
+    height: 40px;
     border: 1px solid #ffffff;
   }
 
   input {
     flex-grow: 2;
     border: none;
-    height: 40px;
+    height: 100%;
     background-color: #1a1a1a;
     text-indent: 0.625em;
     color: white;
@@ -35,13 +36,14 @@
     background-color: #292929;
     color: white;
     width: 8%;
+    height: 100%;
 
     &:hover {
       cursor: pointer;
     }
 
     img {
-      height: 25px;
+      max-height: 70%;
     }
   }
 }

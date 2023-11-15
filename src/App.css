@@ -1,5 +1,6 @@
 .page__title {
   margin: 0 auto;
+  padding-bottom: 5em;
   width: 50%;
   display: flex;
   flex-flow: row nowrap;

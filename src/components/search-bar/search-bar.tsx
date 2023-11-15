@@ -7,20 +7,6 @@ interface SearchBarProps {
   setVideoResults: React.Dispatch<React.SetStateAction<Array<YoutubeVideoObject>>>;
 }
 export default function SearchBar(props: { setters: SearchBarProps }) {
-  // async function submitSearch(keyword: string) {
-  // const encodedString = encodeURI(keyword + " ambience");
-  // const youtubeURL =
-  //   `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelType=any&maxResults=25&order=relevance&q=${encodedString}&type=video&videoDuration=any&videoEmbeddable=true&videoLicense=any&videoType=videoTypeUnspecified&key=` +
-  //   import.meta.env.VITE_YOUTUBE_API_KEY;
-  // console.log(keyword);
-
-  // FormData;
-  // const response = await fetch(youtubeURL);
-  // const videos = await response.json();
-
-  // console.log(videos);
-  // }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     props.setters.setSearchActive(true);
@@ -30,7 +16,7 @@ export default function SearchBar(props: { setters: SearchBarProps }) {
     const encodedString = encodeURI(keyword + " ambience");
     console.log(encodedString);
     const youtubeURL =
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelType=any&maxResults=25&order=relevance&q=${encodedString}&type=video&videoDuration=any&videoEmbeddable=true&videoLicense=any&videoType=videoTypeUnspecified&key=` +
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelType=any&maxResults=50&order=relevance&q=${encodedString}&type=video&videoDuration=any&videoEmbeddable=true&videoLicense=any&videoType=videoTypeUnspecified&key=` +
       import.meta.env.VITE_YOUTUBE_API_KEY;
 
     const response = await fetch(youtubeURL);
