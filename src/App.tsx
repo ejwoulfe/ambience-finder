@@ -3,14 +3,14 @@ import "./App.css";
 import Navigation from "./components/navigation/navigation";
 import Home from "./containers/home/home-page";
 import VideoList from "./containers/video-list/video-list";
-import { YoutubeVideoObject } from "./interfaces/video.ts";
 import SearchBar from "./components/search-bar/search-bar.tsx";
-import PreviousVideos from "./components/previous-videos/previous-videos.tsx";
 import whiteHeadphones from "./assets/white-headphones.svg";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import VideoPage from "./containers/video-page/video-page.tsx";
 
 function App() {
   const [searchActive, setSearchActive] = useState<boolean>(false);
-  const [videoResults, setVideoResults] = useState<Array<YoutubeVideoObject>>([]);
+
   return (
     <main>
       <Navigation />
@@ -27,10 +27,17 @@ function App() {
           <img src={whiteHeadphones} alt="headphones" />
         </span>
       )}
-      <SearchBar setters={{ setSearchActive, setVideoResults }} />
-      {searchActive ? <VideoList videos={videoResults} /> : <Home />}
 
-      {searchActive ? null : <PreviousVideos />}
+      <BrowserRouter>
+        <SearchBar setSearchActive={setSearchActive} />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/list" element={<VideoList />}>
+            <Route path=":keyword" element={<VideoList />} />
+          </Route>
+          <Route path="/video" element={<VideoPage />} />
+        </Routes>
+      </BrowserRouter>
     </main>
   );
 }

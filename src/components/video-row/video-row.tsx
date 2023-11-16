@@ -23,7 +23,7 @@ export function VideoRow(props: VideoRowProps) {
   }
 
   return (
-    <li key={"video-" + index} className="video-row">
+    <li className="video-row">
       <div className="video-row__thumbnail">
         <img src={video.snippet.thumbnails.medium.url} alt="thumbnail" />
         <p className="thumbnail__duration">{formatDuration(parsedDuration)}</p>
