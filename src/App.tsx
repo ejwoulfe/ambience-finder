@@ -35,7 +35,9 @@ function App() {
           <Route path="/list" element={<VideoList />}>
             <Route path=":keyword" element={<VideoList />} />
           </Route>
-          <Route path="/video" element={<VideoPage />} />
+          <Route path="/video" element={<VideoPage />}>
+            <Route path=":id" element={<VideoPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </main>

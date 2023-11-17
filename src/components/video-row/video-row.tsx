@@ -1,15 +1,15 @@
 import { YoutubeVideoDetailsObject } from "../../interfaces/video-details";
 import { formatDuration } from "../../helpers/format-duration";
 import { parse } from "tinyduration";
+import { Link } from "react-router-dom";
 import "./video-row.scss";
 
 interface VideoRowProps {
   video: YoutubeVideoDetailsObject;
   duration: string;
-  index: number;
 }
 export function VideoRow(props: VideoRowProps) {
-  const { video, duration, index } = props;
+  const { video, duration } = props;
 
   const videoSnippet = video.snippet;
   const parsedDuration = parse(duration);
@@ -23,7 +23,7 @@ export function VideoRow(props: VideoRowProps) {
   }
 
   return (
-    <li className="video-row">
+    <Link to={`/video/${video.id}`} state={video} className="video-row">
       <div className="video-row__thumbnail">
         <img src={video.snippet.thumbnails.medium.url} alt="thumbnail" />
         <p className="thumbnail__duration">{formatDuration(parsedDuration)}</p>
@@ -34,6 +34,6 @@ export function VideoRow(props: VideoRowProps) {
         <p>{parseInt(video.statistics.viewCount).toLocaleString()} views</p>
         <p>{truncateDescription(videoSnippet.description, 100)}</p>
       </div>
-    </li>
+    </Link>
   );
 }
