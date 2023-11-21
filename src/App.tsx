@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Navigation from "./components/navigation/navigation";
 import Home from "./containers/home/home-page";
@@ -10,37 +10,41 @@ import VideoPage from "./containers/video-page/video-page.tsx";
 
 function App() {
   const [searchActive, setSearchActive] = useState<boolean>(false);
+  const [focusModeActive, setFocusModeActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(focusModeActive);
+  }, [focusModeActive]);
 
   return (
-    <main>
-      <Navigation />
-      {searchActive ? (
-        <span className="page__title">
-          <img src={whiteHeadphones} alt="headphones" />
-          <h1>Videos List</h1>
-          <img src={whiteHeadphones} alt="headphones" />
-        </span>
-      ) : (
-        <span className="page__title">
-          <img src={whiteHeadphones} alt="headphones" />
-          <h1>Ambience Finder</h1>
-          <img src={whiteHeadphones} alt="headphones" />
-        </span>
-      )}
+    <>
+      {focusModeActive ? <div className="focus-overlay"></div> : null}
+      <main>
+        <Navigation />
+        {searchActive ? (
+          <span className="page__title">
+            <img src={whiteHeadphones} alt="headphones" />
+            <h1>Videos List</h1>
+            <img src={whiteHeadphones} alt="headphones" />
+          </span>
+        ) : (
+          <span className="page__title">
+            <img src={whiteHeadphones} alt="headphones" />
+            <h1>Ambience Finder</h1>
+            <img src={whiteHeadphones} alt="headphones" />
+          </span>
+        )}
 
-      <BrowserRouter>
-        <SearchBar setSearchActive={setSearchActive} />
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/list" element={<VideoList />}>
-            <Route path=":keyword" element={<VideoList />} />
-          </Route>
-          <Route path="/video" element={<VideoPage />}>
-            <Route path=":id" element={<VideoPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </main>
+        <BrowserRouter>
+          <SearchBar setSearchActive={setSearchActive} />
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/list/:keyword" element={<VideoList />} />
+            <Route path="/video/:id" element={<VideoPage focusModeData={{ focusModeActive, setFocusModeActive }} />} />
+          </Routes>
+        </BrowserRouter>
+      </main>
+    </>
   );
 }
 
