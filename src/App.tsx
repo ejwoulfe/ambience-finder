@@ -12,10 +12,6 @@ function App() {
   const [searchActive, setSearchActive] = useState<boolean>(false);
   const [focusModeActive, setFocusModeActive] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log(focusModeActive);
-  }, [focusModeActive]);
-
   return (
     <>
       {focusModeActive ? <div className="focus-overlay"></div> : null}

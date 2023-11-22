@@ -11,23 +11,23 @@ interface VideoPageProps {
 
 export default function VideoPage(props: { focusModeData: VideoPageProps }) {
   const location = useLocation();
-  const state = location.state as YoutubeVideoDetailsObject;
+  const locationState = location.state as YoutubeVideoDetailsObject;
   const [video, setVideo] = useState<YoutubeVideoDetailsObject>();
   const { focusModeActive, setFocusModeActive } = props.focusModeData;
 
   useEffect(() => {
-    if (state === null || state === undefined) {
+    if (locationState === null || locationState === undefined) {
       const currentPath = location.pathname;
       const pos1 = currentPath.indexOf("/");
       const pos2 = currentPath.indexOf("/", pos1 + 1);
       const videoID = currentPath.substring(pos2 + 1, currentPath.length);
-      getVideoDetails(videoID);
+      getVideoObject(videoID);
     } else {
-      setVideo(state);
+      setVideo(locationState);
     }
-  }, [location, state]);
+  }, [location, locationState]);
 
-  async function getVideoDetails(id: string) {
+  async function getVideoObject(id: string) {
     const youtubeVideoDurationURL =
       `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=` +
       import.meta.env.VITE_YOUTUBE_API_KEY;
@@ -45,7 +45,6 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
     height: "400",
     width: "640",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 0,
       origin: "https://www.youtube.com",
     },
@@ -53,20 +52,26 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
 
   return (
     <div className="video-page-container">
-      {video !== undefined ? <h3>{video?.snippet.title}</h3> : <h1>Loading</h1>}
-      <YouTube videoId={video?.id} opts={opts} onReady={onPlayerReady} />
-      <div className="focus-mode-container">
-        {focusModeActive ? <p>Focused</p> : <p>Enable Focus Mode</p>}
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={focusModeActive}
-            onChange={() => {
-              setFocusModeActive(!focusModeActive);
-            }}></input>
-          <span className="slider round"></span>
-        </label>
-      </div>
+      {video !== undefined ? (
+        <>
+          <h3>{video?.snippet.title}</h3>
+          <YouTube videoId={video?.id} opts={opts} onReady={onPlayerReady} />
+          <div className="focus-mode-container">
+            {focusModeActive ? <p>Focused</p> : <p>Enable Focus Mode</p>}
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={focusModeActive}
+                onChange={() => {
+                  setFocusModeActive(!focusModeActive);
+                }}></input>
+              <span className="slider round"></span>
+            </label>
+          </div>
+        </>
+      ) : (
+        <h1>Loading Video</h1>
+      )}
     </div>
   );
 }

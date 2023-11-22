@@ -1,5 +1,5 @@
 import { YoutubeVideoDetailsObject } from "../../interfaces/video-details";
-import { formatDuration } from "../../helpers/format-duration";
+import { formatDuration } from "../../helpers/formatDuration";
 import { parse } from "tinyduration";
 import { Link } from "react-router-dom";
 import "./video-row.scss";
