@@ -12,7 +12,7 @@ interface VideoPageProps {
 export default function VideoPage(props: { focusModeData: VideoPageProps }) {
   const location = useLocation();
   const locationState = location.state as YoutubeVideoDetailsObject;
-  const [video, setVideo] = useState<YoutubeVideoDetailsObject>();
+  const [video, setVideo] = useState<YoutubeVideoDetailsObject>(locationState);
   const { focusModeActive, setFocusModeActive } = props.focusModeData;
 
   useEffect(() => {
@@ -22,8 +22,6 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
       const pos2 = currentPath.indexOf("/", pos1 + 1);
       const videoID = currentPath.substring(pos2 + 1, currentPath.length);
       getVideoObject(videoID);
-    } else {
-      setVideo(locationState);
     }
   }, [location, locationState]);
 
