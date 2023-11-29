@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import YouTube, { YouTubeProps, YouTubePlayer } from "react-youtube";
 import { YoutubeVideoDetailsObject } from "../../interfaces/video-details";
+import PauseSVG from "../../assets/pause.svg";
+import PlaySVG from "../../assets/play.svg";
 import "./video-page.scss";
 
 interface VideoPageProps {
@@ -78,7 +80,11 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
           />
           {focusModeActive ? (
             <button className="focus-mode__button" onClick={() => togglePlayer(videoElement)}>
-              {videoElement.data !== undefined && videoElement.data === 1 ? <>Pause</> : <>Play</>}
+              {videoElement.data !== undefined && videoElement.data === 1 ? (
+                <img src={PauseSVG} alt="pause" />
+              ) : (
+                <img src={PlaySVG} alt="play" />
+              )}
             </button>
           ) : null}
           <div className="focus-mode__container">
