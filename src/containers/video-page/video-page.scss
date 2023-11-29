@@ -5,7 +5,11 @@
   align-items: center;
   margin-top: 3em;
 
-  .focus-mode-container {
+  .focus-mode__button {
+    z-index: 9999;
+  }
+
+  .focus-mode__container {
     z-index: 9999;
     display: flex;
     flex-flow: column nowrap;
