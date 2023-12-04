@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { YoutubeVideoObject } from "../interfaces/video";
 import { YoutubeVideoDetailsObject } from "../interfaces/video-details";
-import { handleErrors } from "./handleErrors";
 
 // Since the list returned from keyword search doesn't contain some video details we need, we have to make a separate API call to retrieve that data. First API call is used to gather the videoIDs, then with the videoIDs we make a different API call to retrieve a video object with more details and set the state.
 export async function fetchVideos(
@@ -23,6 +21,7 @@ export async function fetchVideos(
     setVideos(videos);
   } catch (err: unknown) {
     // handleErrors(err)
+    console.log(err);
   }
 }
 

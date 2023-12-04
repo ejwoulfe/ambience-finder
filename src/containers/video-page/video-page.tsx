@@ -35,7 +35,11 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
       import.meta.env.VITE_YOUTUBE_API_KEY;
     const response = await fetch(youtubeVideoDurationURL);
     const videoInfo = await response.json();
-    setVideo(videoInfo.items[0]);
+    if (videoInfo.items.length > 0) {
+      setVideo(videoInfo.items[0]);
+    } else {
+      throw Error("Video with id of " + id + " does not exist.");
+    }
   }
 
   const onPlayerReady = (event: YouTubePlayer) => {
@@ -92,6 +96,7 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
             <label className="switch">
               <input
                 type="checkbox"
+                tabIndex={0}
                 checked={focusModeActive}
                 onChange={() => {
                   setFocusModeActive(!focusModeActive);

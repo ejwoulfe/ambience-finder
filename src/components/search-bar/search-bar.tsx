@@ -15,7 +15,7 @@ export default function SearchBar(props: { setSearchActive: React.Dispatch<React
 
   return (
     <div className="search-container">
-      <form method="post" onSubmit={handleSubmit}>
+      <form method="post" onSubmit={handleSubmit} name="search">
         <input
           name="searchTerm"
           placeholder="Search with keywords separated by commas:  Snow, Lord of the Rings, Calm"></input>

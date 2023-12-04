@@ -7,6 +7,7 @@ import SearchBar from "./components/search-bar/search-bar.tsx";
 import whiteHeadphones from "./assets/white-headphones.svg";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import VideoPage from "./containers/video-page/video-page.tsx";
+import { NotFound } from "./components/not-found/not-found.tsx";
 
 function App() {
   const [searchActive, setSearchActive] = useState<boolean>(false);
@@ -37,6 +38,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/list/:keyword" element={<VideoList />} />
             <Route path="/video/:id" element={<VideoPage focusModeData={{ focusModeActive, setFocusModeActive }} />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </main>
