@@ -10,7 +10,7 @@ export default function SearchBar(props: { setSearchActive: React.Dispatch<React
     props.setSearchActive(true);
     const target = e.currentTarget;
     const keyword = target.searchTerm.value;
-    navigate("/list/" + keyword);
+    navigate("list/" + keyword);
   }
 
   return (

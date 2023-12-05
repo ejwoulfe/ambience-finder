@@ -1,49 +1,36 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import Navigation from "./components/navigation/navigation";
-import Home from "./containers/home/home-page";
-import VideoList from "./containers/video-list/video-list";
-import SearchBar from "./components/search-bar/search-bar.tsx";
-import whiteHeadphones from "./assets/white-headphones.svg";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import VideoPage from "./containers/video-page/video-page.tsx";
+import Home from "./layouts/home/home-page";
+
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from "react-router-dom";
+import VideoPageLayout from "./layouts/video-page/video-page-layout.tsx";
 import { NotFound } from "./components/not-found/not-found.tsx";
+import VideoPage from "./components/video-page/video-page.tsx";
+import VideoListLayout from "./layouts/video-list/video-list-layout.tsx";
+import VideoList, { videosLoader } from "./components/video-list/video-list.tsx";
+import Layout from "./layouts/Layout/layout.tsx";
 
 function App() {
-  const [searchActive, setSearchActive] = useState<boolean>(false);
   const [focusModeActive, setFocusModeActive] = useState<boolean>(false);
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route element={<Layout focusModeActive={focusModeActive} />}>
+        <Route index element={<Home />} />
 
-  return (
-    <>
-      {focusModeActive ? <div className="focus-overlay"></div> : null}
-      <main>
-        <Navigation />
-        {searchActive ? (
-          <span className="page__title">
-            <img src={whiteHeadphones} alt="headphones" />
-            <h1>Videos List</h1>
-            <img src={whiteHeadphones} alt="headphones" />
-          </span>
-        ) : (
-          <span className="page__title">
-            <img src={whiteHeadphones} alt="headphones" />
-            <h1>Ambience Finder</h1>
-            <img src={whiteHeadphones} alt="headphones" />
-          </span>
-        )}
+        <Route path="list" element={<VideoListLayout />}>
+          <Route path=":keyword" element={<VideoList />} loader={videosLoader} />
+        </Route>
 
-        <BrowserRouter>
-          <SearchBar setSearchActive={setSearchActive} />
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="/list/:keyword" element={<VideoList />} />
-            <Route path="/video/:id" element={<VideoPage focusModeData={{ focusModeActive, setFocusModeActive }} />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </main>
-    </>
+        <Route path="video" element={<VideoPageLayout />}>
+          <Route path=":id" element={<VideoPage focusModeData={{ focusModeActive, setFocusModeActive }} />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    )
   );
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

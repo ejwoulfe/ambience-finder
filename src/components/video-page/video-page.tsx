@@ -29,6 +29,10 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
     }
   }, [location, locationState]);
 
+  // useEffect(() => {
+  //   throw Error("test");
+  // }, []);
+
   async function getVideoObject(id: string) {
     const youtubeVideoDurationURL =
       `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=` +
@@ -72,7 +76,7 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
   }, [videoElement]);
 
   return (
-    <div className="video-page-container">
+    <>
       {video !== undefined ? (
         <>
           <h3>{video?.snippet.title}</h3>
@@ -108,6 +112,6 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
       ) : (
         <h1>Loading Video</h1>
       )}
-    </div>
+    </>
   );
 }
