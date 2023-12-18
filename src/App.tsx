@@ -7,8 +7,10 @@ import VideoPageLayout from "./layouts/video-page/video-page-layout.tsx";
 import { NotFound } from "./components/not-found/not-found.tsx";
 import VideoPage from "./components/video-page/video-page.tsx";
 import VideoListLayout from "./layouts/video-list/video-list-layout.tsx";
-import VideoList, { videosLoader } from "./components/video-list/video-list.tsx";
+import VideoList from "./components/video-list/video-list.tsx";
+import { videosLoader } from "./loader/videos-loader.ts";
 import Layout from "./layouts/Layout/layout.tsx";
+import VideoListError from "./components/video-list/video-list-error.tsx";
 
 function App() {
   const [focusModeActive, setFocusModeActive] = useState<boolean>(false);
@@ -18,7 +20,7 @@ function App() {
         <Route index element={<Home />} />
 
         <Route path="list" element={<VideoListLayout />}>
-          <Route path=":keyword" element={<VideoList />} loader={videosLoader} />
+          <Route path=":keyword" element={<VideoList />} loader={videosLoader} errorElement={<VideoListError />} />
         </Route>
 
         <Route path="video" element={<VideoPageLayout />}>
