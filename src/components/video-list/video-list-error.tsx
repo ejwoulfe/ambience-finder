@@ -10,7 +10,9 @@ export default function VideoListError() {
 
   return (
     <div className="error-container">
-      <p></p>
+      <h2>There was an unexpected error.</h2>
+      <p>Please try again or contact us at: fakeemail@gmail.com</p>
+      <p>{error.cause.toString()}</p>
     </div>
   );
 }

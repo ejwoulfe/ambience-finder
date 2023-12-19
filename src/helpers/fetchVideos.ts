@@ -28,20 +28,21 @@ export async function fetchVideosWithKeyword(keyword: string) {
     import.meta.env.VITE_YOUTUBE_API_KEY;
 
   try {
-    const response = await fetch(youtubeURL);
+    const response = await fetch(youtubeURL, { signal: AbortSignal.timeout(20000) });
     if (!response.ok) {
-      const test = await fetch(response.url);
-      const result = await test.json();
-      console.log(result.error);
+      const errorFetch = await fetch(response.url);
+      const errorResponse = await errorFetch.json();
+      // console.log(errorResponse.error);
       const customError = {
-        code: result.error.code,
-        status: result.error.status,
-        reason: result.error.errors[0].reason,
+        code: errorResponse.error.code,
+        status: errorResponse.error.status,
+        reason: errorResponse.error.errors[0].reason,
       };
-      throw new Error(customError.toString());
+      throw new Error("test msg", { cause: customError });
+    } else {
+      const results = await response.json();
+      return await fetchVideoWithID(results.items.map((video: YoutubeVideoObject) => video.id.videoId));
     }
-    const results = await response.json();
-    return await fetchVideoWithID(results.items.map((video: YoutubeVideoObject) => video.id.videoId));
   } catch (err) {
     throw new Error("Error in retrieving videos:", { cause: err });
   }
@@ -53,7 +54,23 @@ async function fetchVideoWithID(videoIdsArray: Array<string>) {
   const youtubeVideoDurationURL =
     `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${ids}&key=` +
     import.meta.env.VITE_YOUTUBE_API_KEY;
-  const response = await fetch(youtubeVideoDurationURL);
-  const videoObjects = await response.json();
-  return videoObjects.items;
+  try {
+    const response = await fetch(youtubeVideoDurationURL);
+    if (!response.ok) {
+      const errorFetch = await fetch(response.url);
+      const errorResponse = await errorFetch.json();
+      console.log(errorResponse.error);
+      const customError = {
+        code: errorResponse.error.code,
+        status: errorResponse.error.status,
+        reason: errorResponse.error.errors[0].reason,
+      };
+      throw new Error(customError.toString());
+    } else {
+      const videoObjects = await response.json();
+      return videoObjects.items;
+    }
+  } catch (err) {
+    throw new Error("Error in retrieving videos:", { cause: err });
+  }
 }
