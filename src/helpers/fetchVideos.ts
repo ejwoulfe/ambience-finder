@@ -24,7 +24,7 @@ import { YoutubeVideoDetailsObject } from "../interfaces/video-details";
 export async function fetchVideosWithKeyword(keyword: string) {
   const encodedString = encodeURI(keyword + " ambience");
   const youtubeURL =
-    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelType=any&maxResults=50&order=relevance&q=${encodedString}&type=video&videoDuration=any&videoEmbeddable=true&videoLicense=any&videoType=videoTypeUnspecified&ke=` +
+    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelType=any&maxResults=50&order=relevance&q=${encodedString}&type=video&videoDuration=any&videoEmbeddable=true&videoLicense=any&videoType=videoTypeUnspecified&key=` +
     import.meta.env.VITE_YOUTUBE_API_KEY;
 
   try {
@@ -32,13 +32,12 @@ export async function fetchVideosWithKeyword(keyword: string) {
     if (!response.ok) {
       const errorFetch = await fetch(response.url);
       const errorResponse = await errorFetch.json();
-      // console.log(errorResponse.error);
       const customError = {
         code: errorResponse.error.code,
         status: errorResponse.error.status,
         reason: errorResponse.error.errors[0].reason,
       };
-      throw new Error("test msg", { cause: customError });
+      throw new Error(customError.code + ": " + customError.reason, { cause: customError });
     } else {
       const results = await response.json();
       return await fetchVideoWithID(results.items.map((video: YoutubeVideoObject) => video.id.videoId));
@@ -48,24 +47,23 @@ export async function fetchVideosWithKeyword(keyword: string) {
   }
 }
 
-async function fetchVideoWithID(videoIdsArray: Array<string>) {
+export async function fetchVideoWithID(videoIdsArray: Array<string>) {
   const ids = videoIdsArray.join("%2C");
 
   const youtubeVideoDurationURL =
     `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${ids}&key=` +
     import.meta.env.VITE_YOUTUBE_API_KEY;
   try {
-    const response = await fetch(youtubeVideoDurationURL);
+    const response = await fetch(youtubeVideoDurationURL, { signal: AbortSignal.timeout(20000) });
     if (!response.ok) {
       const errorFetch = await fetch(response.url);
       const errorResponse = await errorFetch.json();
-      console.log(errorResponse.error);
       const customError = {
         code: errorResponse.error.code,
         status: errorResponse.error.status,
         reason: errorResponse.error.errors[0].reason,
       };
-      throw new Error(customError.toString());
+      throw new Error(customError.code + ": " + customError.reason, { cause: customError });
     } else {
       const videoObjects = await response.json();
       return videoObjects.items;

@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import YouTube, { YouTubeProps, YouTubePlayer } from "react-youtube";
 import { YoutubeVideoDetailsObject } from "../../interfaces/video-details";
+import { fetchVideoWithID } from "../../helpers/fetchVideos";
 import PauseSVG from "../../assets/pause.svg";
 import PlaySVG from "../../assets/play.svg";
 import "./video-page.scss";
@@ -25,26 +26,24 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
       const pos1 = currentPath.indexOf("/");
       const pos2 = currentPath.indexOf("/", pos1 + 1);
       const videoID = currentPath.substring(pos2 + 1, currentPath.length);
-      getVideoObject(videoID);
+      fetchVideoWithID([videoID]).then((result) => {
+        if (result.length === 0) {
+          const customError = {
+            code: 404,
+            status: "not found",
+            reason: "0 videos found",
+          };
+          throw new Error(customError.code + ": " + customError.reason, { cause: customError });
+        } else {
+          setVideo(result[0]);
+        }
+      });
     }
   }, [location, locationState]);
 
-  // useEffect(() => {
-  //   throw Error("test");
-  // }, []);
-
-  async function getVideoObject(id: string) {
-    const youtubeVideoDurationURL =
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=` +
-      import.meta.env.VITE_YOUTUBE_API_KEY;
-    const response = await fetch(youtubeVideoDurationURL);
-    const videoInfo = await response.json();
-    if (videoInfo.items.length > 0) {
-      setVideo(videoInfo.items[0]);
-    } else {
-      throw Error("Video with id of " + id + " does not exist.");
-    }
-  }
+  useEffect(() => {
+    console.log(video);
+  }, [video]);
 
   const onPlayerReady = (event: YouTubePlayer) => {
     // access to player in all event handlers via event.target
@@ -69,11 +68,6 @@ export default function VideoPage(props: { focusModeData: VideoPageProps }) {
       origin: "https://www.youtube.com",
     },
   };
-  useEffect(() => {
-    if (videoElement !== undefined) {
-      console.log(videoElement.data);
-    }
-  }, [videoElement]);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navigation from "../../components/navigation/navigation";
 import whiteHeadphones from "../../assets/white-headphones.svg";
 import SearchBar from "../../components/search-bar/search-bar";
@@ -11,6 +11,7 @@ interface LayoutProps {
 export default function Layout(props: LayoutProps) {
   const [searchActive, setSearchActive] = useState<boolean>(false);
   const { focusModeActive } = props;
+
   return (
     <>
       {focusModeActive ? <div className="focus-overlay"></div> : null}
